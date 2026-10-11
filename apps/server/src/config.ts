@@ -33,6 +33,8 @@ export interface Config {
   clientDist: string;
   maxPlayers: number;
   saveIntervalSec: number;
+  /** bật lệnh chat dành cho nhà phát triển (/tp, /give, /time, /xu, /spawn) */
+  devCommands: boolean;
 }
 
 export function loadConfig(overrides: Partial<Config> = {}): Config {
@@ -50,6 +52,7 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
     clientDist: process.env.CLIENT_DIST ?? path.join(ROOT, 'apps', 'client', 'dist'),
     maxPlayers: envInt('MAX_PLAYERS', 200),
     saveIntervalSec: envInt('SAVE_INTERVAL_SEC', 10),
+    devCommands: envBool('DEV_COMMANDS', false),
     ...overrides,
   };
 }

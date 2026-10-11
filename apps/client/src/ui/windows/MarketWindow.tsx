@@ -108,6 +108,10 @@ function BookPanel({ outpost, item, onChanged }: { outpost: string; item: string
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slots.length, item]);
   const chosen = inv[slot];
+  useEffect(() => {
+    if (chosen) setSQty(chosen.n);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slot]);
   const after = () => {
     reload();
     onChanged();

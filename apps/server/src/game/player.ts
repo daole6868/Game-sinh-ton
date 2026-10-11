@@ -142,6 +142,7 @@ export class Player extends Entity {
   running = false;
   nextActionAt = 0;
   nextUseAt = 0;
+  nextPlaceAt = 0;
   lastCombatAt = 0;
   lastStaminaUse = 0;
   known = new Map<number, number>();

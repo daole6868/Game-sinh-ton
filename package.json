@@ -18,8 +18,7 @@
     "build": "npm run build -w @suongdo/client",
     "start": "npm run start -w @suongdo/server",
     "typecheck": "tsc -p packages/shared && tsc -p apps/server && tsc -p apps/client",
-    "test": "node --disable-warning=ExperimentalWarning --import tsx --test \"packages/shared/test/*.test.ts\" \"apps/server/test/*.test.ts\"",
-    "validate-data": "node --import tsx scripts/validate-data.ts"
+    "test": "node --disable-warning=ExperimentalWarning --import tsx --test \"packages/shared/test/*.test.ts\" \"apps/server/test/*.test.ts\""
   },
   "devDependencies": {
     "@types/node": "22.15.30",

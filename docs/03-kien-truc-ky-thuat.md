@@ -1,5 +1,7 @@
 # Kiến trúc kỹ thuật
 
+> **Ghi chú triển khai (v0.1):** bản code hiện tại dùng SQLite thay cho PostgreSQL + Redis, thư viện `ws` thay cho Colyseus, một tiến trình duy nhất thay cho API server và game server tách riêng, npm workspaces thay cho pnpm, `node:test` thay cho Vitest. Các nguyên tắc trong tài liệu này (server quyết định mọi thứ, sinh địa hình tất định, giao dịch nguyên tử, AOI) vẫn được giữ. Xem bảng so sánh ở [README](../README.md#khác-biệt-so-với-tài-liệu-kiến-trúc).
+
 ## Mục lục
 
 1. [Lựa chọn công nghệ](#1-lựa-chọn-công-nghệ)

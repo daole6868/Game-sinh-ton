@@ -644,7 +644,7 @@ export function handlePlace(game: Game, p: Player, slot: number, tx: number, ty:
   if (!sid) return;
   const def = STRUCTURES[sid]!;
   const now = Date.now();
-  if (now < p.nextActionAt) return;
+  if (now < p.nextPlaceAt) return;
   if (reach(p, tx, ty) > BUILD_RANGE) throw new GameError('Quá xa để xây.');
   const tile = TILES[game.view.tile(tx, ty)]!;
   if (tile.solid || tile.water) throw new GameError('Không xây được trên mặt nước.');
@@ -686,7 +686,7 @@ export function handlePlace(game: Game, p: Player, slot: number, tx: number, ty:
     p.spawn = { tx, ty };
     game.note(p, 'Đã đặt điểm hồi sinh tại đây.', 'good');
   }
-  p.nextActionAt = now + 200;
+  p.nextPlaceAt = now + 150;
   game.chunkUpdate(tx, ty);
   giveXp(game, p, 'building', 2 + Math.round((itemDef.price ?? 10) / 50));
   game.invChanged(p);

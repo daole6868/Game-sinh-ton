@@ -435,7 +435,10 @@ export class Market {
 
   /** Báo cho người chơi online liên quan: cập nhật ví, số thư chưa đọc. */
   private afterTrade(actor: Player | null): void {
-    if (actor) giveXp(this.game, actor, 'trading', 2);
+    if (actor) {
+      giveXp(this.game, actor, 'trading', 2);
+      this.touched.add(actor.charId);
+    }
     for (const id of this.touched) {
       const q = this.game.byChar.get(id);
       if (!q) continue;

@@ -1,5 +1,7 @@
 # Lộ trình phát triển
 
+> **Tiến độ (v0.1):** đã có bản chơi được, gồm phần lõi của giai đoạn 0–3 và Hardcore, PvP theo vùng của giai đoạn 4. Danh sách việc còn lại nằm ở [README › Tình trạng tính năng](../README.md#tình-trạng-tính-năng).
+
 > **Giả định:** 1–2 lập trình viên làm toàn thời gian. Thời gian chỉ là ước lượng; dự án game thực tế thường kéo dài hơn dự kiến.
 > **Nguyên tắc:** làm cho **vui** trước, làm cho **nhiều người chơi** sau, làm **kinh tế** khi nền móng đã vững. Mỗi giai đoạn kết thúc bằng một bản **chơi được**.
 

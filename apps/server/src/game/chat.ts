@@ -1,6 +1,8 @@
 import type { ChatChannel } from '@suongdo/shared';
-import { collides, PLAYER_RADIUS } from '@suongdo/shared';
+import { collides, ITEMS, makeStack, MOBS, PLAYER_RADIUS } from '@suongdo/shared';
+import { charWallet, SYS } from '../economy/ledger.ts';
 import { findFreeNear, teleport } from './combat.ts';
+import { spawnMob } from './mobs.ts';
 import type { Game } from './game.ts';
 import type { Player } from './player.ts';
 
@@ -79,8 +81,58 @@ function command(game: Game, p: Player, text: string): void {
       return;
     }
     default:
+      if (game.cfg.devCommands && devCommand(game, p, cmd!.toLowerCase(), rest)) return;
       p.send({ t: 'chat', ch: 'system', from: 'Hệ thống', text: HELP, ts: Date.now() });
   }
+}
+
+/** Lệnh thử nghiệm — chỉ hoạt động khi máy chủ chạy với DEV_COMMANDS=1. */
+function devCommand(game: Game, p: Player, cmd: string, args: string[]): boolean {
+  switch (cmd) {
+    case '/tp': {
+      const x = Number(args[0]);
+      const y = Number(args[1]);
+      if (!Number.isFinite(x) || !Number.isFinite(y) || !p.alive) return false;
+      const pos = findFreeNear(game, x, y, 12) ?? { x, y };
+      teleport(game, p, pos.x, pos.y);
+      return true;
+    }
+    case '/give': {
+      const id = args[0] ?? '';
+      const n = Math.max(1, Math.min(1000, Number(args[1] ?? 1) || 1));
+      if (!ITEMS[id]) return false;
+      for (let i = 0; i < (ITEMS[id]!.durability ? n : 1); i++) game.giveOrDrop(p, makeStack(id, ITEMS[id]!.durability ? 1 : n, { now: game.time, uid: () => game.uid() }));
+      game.invChanged(p);
+      return true;
+    }
+    case '/time': {
+      const t = Number(args[0]);
+      if (!Number.isFinite(t)) return false;
+      game.time = t;
+      game.broadcast({ t: 'world', w: game.worldInfo() });
+      return true;
+    }
+    case '/xu': {
+      const n = Math.max(1, Math.min(1_000_000, Number(args[0] ?? 1000) || 1000));
+      game.atomic([p], () => game.ledger.transfer(SYS.reward, charWallet(p.charId), n, 'dev'));
+      game.refreshWallet(p);
+      return true;
+    }
+    case '/spawn': {
+      const def = MOBS[args[0] ?? ''];
+      if (!def) return false;
+      spawnMob(game, def, p.x + 3, p.y);
+      return true;
+    }
+    case '/weather': {
+      const k = args[0] as 'clear' | 'rain' | 'fog' | 'storm' | 'heat';
+      if (!['clear', 'rain', 'fog', 'storm', 'heat'].includes(k)) return false;
+      game.weather = { kind: k, until: Date.now() + 10 * 60_000 };
+      game.broadcast({ t: 'world', w: game.worldInfo() });
+      return true;
+    }
+  }
+  return false;
 }
 
 export function setPvp(game: Game, p: Player, on: boolean): void {

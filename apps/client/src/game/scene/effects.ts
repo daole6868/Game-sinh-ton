@@ -183,9 +183,11 @@ export class Effects {
    * Vẽ ở độ phân giải thế giới (rẻ, ra chất pixel mềm).
    */
   drawLighting(cam: Phaser.Cameras.Scene2D.Camera, lights: LightSource[], darkness: number, blood: boolean): void {
+    // vẽ ở nửa độ phân giải thế giới rồi phóng ×2 (rẻ hơn 4 lần, vẫn mềm mại)
+    const S = 2;
     const wv = cam.worldView;
-    const w = Math.ceil(wv.width) + 2;
-    const h = Math.ceil(wv.height) + 2;
+    const w = Math.ceil(wv.width / S) + 2;
+    const h = Math.ceil(wv.height / S) + 2;
     if (darkness <= 0.01) {
       this.dark.setVisible(false);
       for (const g of this.glows) g.setVisible(false);
@@ -193,16 +195,16 @@ export class Effects {
     }
     this.dark.setVisible(true);
     if (this.dark.width !== w || this.dark.height !== h) this.dark.resize(w, h);
-    const ox = Math.floor(wv.x);
-    const oy = Math.floor(wv.y);
-    this.dark.setPosition(ox, oy);
+    const ox = Math.floor(wv.x / S) * S - S;
+    const oy = Math.floor(wv.y / S) * S - S;
+    this.dark.setPosition(ox, oy).setScale(S);
     this.dark.clear();
     this.dark.fill(blood ? 0x2a0008 : 0x050818, darkness);
     let gi = 0;
     for (const l of lights) {
-      const lx = l.x * TILE_PX - ox;
-      const ly = l.y * TILE_PX - oy;
-      const R = l.r * TILE_PX;
+      const lx = (l.x * TILE_PX - ox) / S;
+      const ly = (l.y * TILE_PX - oy) / S;
+      const R = (l.r * TILE_PX) / S;
       if (lx < -R || ly < -R || lx > w + R || ly > h + R) continue;
       const flick = l.fire ? 1 + Math.sin(performance.now() / 90 + l.x * 7) * 0.04 : 1;
       this.dark.stamp('light', undefined, lx, ly, { scale: ((R * 2) / 128) * flick, erase: true, originX: 0.5, originY: 0.5 });
@@ -213,7 +215,7 @@ export class Effects {
           this.world.add(g);
           this.glows.push(g);
         }
-        g.setVisible(true).setPosition(l.x * TILE_PX, l.y * TILE_PX).setScale((R * 1.6 * flick) / 64).setAlpha(Math.min(1, darkness * 1.1));
+        g.setVisible(true).setPosition(l.x * TILE_PX, l.y * TILE_PX).setScale((l.r * TILE_PX * 1.6 * flick) / 64).setAlpha(Math.min(1, darkness * 1.1));
         gi++;
       }
     }

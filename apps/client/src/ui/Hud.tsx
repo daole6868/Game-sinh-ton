@@ -319,6 +319,7 @@ function Chat() {
           </div>
           <input
             ref={inputRef}
+            autoFocus
             value={text}
             maxLength={200}
             placeholder="Nhập tin nhắn... (/help xem lệnh)"
