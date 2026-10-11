@@ -518,7 +518,7 @@ export class Game {
   private sendInitial(p: Player): void {
     p.send({
       t: 'welcome',
-      me: { id: p.charId, name: p.name, guest: p.guest },
+      me: { id: p.charId, name: p.name, guest: p.guest, eid: p.id },
       seed: this.seed,
       world: this.worldInfo(),
       hardcore: this.cfg.hardcore,

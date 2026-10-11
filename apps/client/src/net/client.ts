@@ -1,4 +1,5 @@
 import type { C2S, ReqArgs, ReqOp, ReqRes, S2C } from '@suongdo/shared';
+import { getWorld, initWorld } from '../game/world';
 import { note, pushChat, useStore } from '../state/store';
 
 type Handler<T extends S2C['t']> = (msg: Extract<S2C, { t: T }>) => void;
@@ -102,8 +103,17 @@ class Net {
   private handle(msg: S2C): void {
     const st = useStore.getState();
     switch (msg.t) {
-      case 'welcome':
+      case 'welcome': {
+        const w = initWorld(msg.seed);
+        w.myChar = msg.me.id;
         useStore.setState({ me: msg.me, seed: msg.seed, hardcore: msg.hardcore, worldTime: msg.world.wt, weather: msg.world.weather, dead: null });
+        break;
+      }
+      case 'ch':
+        getWorld()?.applyChunk(msg);
+        break;
+      case 'cu':
+        getWorld()?.applyTile(msg);
         break;
       case 'res': {
         const p = this.pending.get(msg.rid);
@@ -151,9 +161,12 @@ class Net {
       case 'alive':
         useStore.setState({ dead: null });
         break;
-      case 'terr':
+      case 'terr': {
+        const w = getWorld();
+        if (w) w.view.territories = msg.l;
         useStore.setState({ territories: msg.l });
         break;
+      }
       case 'world':
         useStore.setState({ weather: msg.w.weather });
         break;

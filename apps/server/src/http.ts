@@ -218,7 +218,7 @@ async function api(cfg: Config, db: Db, game: Game, req: http.IncomingMessage, r
         pl.name = username;
         pl.guest = false;
         pl.ver++;
-        pl.send({ t: 'welcome', me: { id: pl.charId, name: pl.name, guest: false }, seed: game.seed, world: game.worldInfo(), hardcore: cfg.hardcore, serverTime: Date.now() });
+        pl.send({ t: 'welcome', me: { id: pl.charId, name: pl.name, guest: false, eid: pl.id }, seed: game.seed, world: game.worldInfo(), hardcore: cfg.hardcore, serverTime: Date.now() });
       }
     }
     game.territories.reload();

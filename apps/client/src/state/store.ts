@@ -75,7 +75,7 @@ export interface UIState {
   auth: Auth | null;
   connected: boolean;
   connError: string | null;
-  me: { id: number; name: string; guest: boolean } | null;
+  me: { id: number; name: string; guest: boolean; eid: number } | null;
   seed: number;
   hardcore: boolean;
   snap: MeSnap | null;
@@ -107,6 +107,8 @@ export interface UIState {
   outpost: { id: string; name: string } | null;
   zone: { ring: number; name: string; color: string; biome: string; x: number; y: number };
   fps: number;
+  /** hướng di chuyển từ cần điều khiển cảm ứng */
+  touchMove: { x: number; y: number } | null;
   set: (p: Partial<UIState>) => void;
 }
 
@@ -148,6 +150,7 @@ export const useStore = create<UIState>((set) => ({
   outpost: null,
   zone: { ring: 0, name: 'Vùng Rìa', color: '#8fd18b', biome: '', x: 0, y: 0 },
   fps: 0,
+  touchMove: null,
   set: (p) => set(p),
 }));
 

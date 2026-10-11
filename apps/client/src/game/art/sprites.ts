@@ -861,6 +861,28 @@ const lamp = px(
   { k: '#20242a', Y: '#f0b030', r: '#fff6c0', M: '#5a6470' },
 );
 
+const noticeBoard = px(
+  [
+    '................',
+    'kkkkkkkkkkkkkkkk',
+    'kTTTTTTTTTTTTTTk',
+    'kTwwwTwwwwTwwwTk',
+    'kTwkwTwkkwTwkwTk',
+    'kTwwwTwwwwTwwwTk',
+    'kTwkwTwkkwTwwwTk',
+    'kTwwwTwwwwTwkwTk',
+    'kTTTTTTTTTTTTTTk',
+    'kkkkkkkkkkkkkkkk',
+    '..kL.......kL...',
+    '..kL.......kL...',
+    '..kL.......kL...',
+    '..kL.......kL...',
+    '..kk.......kk...',
+    '.::::::::::::::.',
+  ],
+  { k: '#2e1e14', T: '#8a6a3a', w: '#f0e8d0', L: '#6a4628' },
+);
+
 export const STRUCTURE_SPRITES: Record<string, PixelSprite> = {
   campfire: campfire(0),
   campfire_1: campfire(1),
@@ -884,6 +906,7 @@ export const STRUCTURE_SPRITES: Record<string, PixelSprite> = {
   farm_plot: farmPlot,
   spike_trap: spikeTrap,
   market_stall: marketStall,
+  notice_board: noticeBoard,
   crop_sprout: sprout,
   crop_carrot_1: carrotMid,
   crop_carrot_2: carrotRipe,

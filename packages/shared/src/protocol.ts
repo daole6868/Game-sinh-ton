@@ -149,7 +149,7 @@ export interface QuestState {
 export type S2C =
   | {
       t: 'welcome';
-      me: { id: number; name: string; guest: boolean };
+      me: { id: number; name: string; guest: boolean; eid: number };
       seed: number;
       world: WorldInfo;
       hardcore: boolean;
