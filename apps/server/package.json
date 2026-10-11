@@ -1,0 +1,18 @@
+{
+  "name": "@suongdo/server",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --disable-warning=ExperimentalWarning --import tsx --watch src/index.ts",
+    "start": "node --disable-warning=ExperimentalWarning --import tsx src/index.ts"
+  },
+  "dependencies": {
+    "@suongdo/shared": "0.1.0",
+    "ws": "8.22.0",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@types/ws": "8.18.1"
+  }
+}
